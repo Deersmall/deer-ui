@@ -4,7 +4,7 @@
         <div class="dataDisplayOfHome">
 <!--          标题  -->
             <div class="headOfDataDisplay">
-                <span style="flex: 9;font-size: 22px;font-weight: bold">Deer_small</span>
+                <span style="flex: 9;font-size: 22px;font-weight: bold">{{ user.userName }}</span>
             </div>
 <!--            数据具体展示-->
             <div class="detailedData">
@@ -45,6 +45,7 @@
       data(){
             return {
                 inforOfDaPeng:{},
+                user: JSON.parse(localStorage.getItem("user")), //获取指定key本地存储的值
             }
         },
         methods:{

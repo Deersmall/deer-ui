@@ -36,15 +36,15 @@
         </div>
         <!-- 输入框盒子 -->
         <div class="input-box">
-          <input type="text" placeholder="用户名">
-          <input type="password" placeholder="密码">
+          <input v-model="user.userCode" type="text" placeholder="用户名">
+          <input v-model="user.userPsd" type="password" placeholder="密码">
         </div>
         <!-- 按钮盒子 -->
         <div class="btn-box">
-          <button>登录</button>
+          <button @click="login">登录</button>
         </div>
         <div class="Visitor-login">
-          <span>游客登录</span>
+          <span @click="VisitorLogin">游客登录</span>
         </div>
       </div>
     </div>
@@ -53,11 +53,17 @@
 </template>
 
 <script>
+import request from "@/utils/request";
+
 export default {
   name: "Login",
   components: {  },
   data() {
     return {
+      user:{
+        userCode:'',
+        userPsd:'',
+      },
     };
   },
 
@@ -68,8 +74,26 @@ export default {
   methods:{
 
 
-    ts() {
+    login() {
+      request.post("/deerLogin/login",this.user).then(ref => {
+        if (ref && ref !== false){
+          let user = JSON.stringify(ref);
+          localStorage.setItem("user", user);
+          debugger
+          this.$router.push("/main/home");// 跳转路由
+        }
+      })
+    },
 
+    VisitorLogin(){
+      request.post("/deerLogin/visitorLogin").then(ref => {
+        if (ref && ref !== false){
+          let user = JSON.stringify(ref);
+          localStorage.setItem("user", user);
+          debugger
+          this.$router.push("/main/home");// 跳转路由
+        }
+      })
     },
 
   }
@@ -290,30 +314,30 @@ input {
   flex-direction: column;
   /* 水平居中 */
   align-items: center;
-}
 
-/* 输入框 */
-input {
-  width: 60%;
-  height: 40px;
-  margin-bottom: 20px;
-  text-indent: 10px;
-  border: 1px solid #fff;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 120px;
-  /* 增加磨砂质感 */
-  backdrop-filter: blur(10px);
-}
+  /* 输入框 */
+  input {
+    width: 60%;
+    height: 40px;
+    margin-bottom: 20px;
+    text-indent: 10px;
+    border: 1px solid #fff;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 120px;
+    /* 增加磨砂质感 */
+    backdrop-filter: blur(10px);
+  }
 
-input:focus {
-  /* 光标颜色 */
-  color: #b0cfe9;
+  input:focus {
+    /* 光标颜色 */
+    color: #666bbb;
 
-}
+  }
 
-/* 聚焦时隐藏文字 */
-input:focus::placeholder {
-  opacity: 0;
+  /* 聚焦时隐藏文字 */
+  input:focus::placeholder {
+    opacity: 0;
+  }
 }
 
 /* 按钮盒子 */
