@@ -1,15 +1,16 @@
 <template>
     <div class="mainBodyOfHome">
+      {{user}}
 <!--    数据展示-->
         <div class="dataDisplayOfHome">
 <!--          标题  -->
             <div class="headOfDataDisplay">
-                <span style="flex: 9;font-size: 22px;font-weight: bold">{{ user.userName }}</span>
+                <span style="flex: 9;font-size: 22px;font-weight: bold">{{ user.username }}</span>
             </div>
 <!--            数据具体展示-->
             <div class="detailedData">
                 <!--            Rank榜-->
-                <div class="demoOfDivInDetailedData" style="background-color: #E1F3D8">
+                <div class="demoOfDivInDetailedData" style="background-color: #E1F3D8" @click="ranks">
                   <div class="sp-center" style="font-family: PingFangSC-Semibold,PingFang SC;font-size: 25px;font-weight: bold; flex: 2;width: 100%;height: 100%;display: flex;align-items: center;padding-left: 10px">
                     <span>Rank榜</span>
                   </div>
@@ -45,7 +46,7 @@
       data(){
             return {
                 inforOfDaPeng:{},
-                user: JSON.parse(localStorage.getItem("user")), //获取指定key本地存储的值
+                user: JSON.parse(window.sessionStorage.getItem('token')), //获取指定key本地存储的值
             }
         },
         methods:{
@@ -53,13 +54,18 @@
                 this.request.get("http://localhost:9090/inforofdapeng/newData").then(res=>{
                     this.inforOfDaPeng = res.data
                 })
-            }
+            },
+          ranks() {
+            let item = window.sessionStorage.getItem('token');
+            debugger
+          },
         },
         created() {
             // this.loadInforOfDaPeng()
         }
     }
 </script>
+
 
 <style lang="scss" scoped>
     .mainBodyOfHome{

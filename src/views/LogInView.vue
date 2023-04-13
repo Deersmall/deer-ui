@@ -18,13 +18,13 @@
         </div>
         <!-- 输入框盒子 -->
         <div class="input-box">
-          <input type="text" placeholder="用户名">
-          <input type="password" placeholder="密码">
-          <input type="password" placeholder="确认密码">
+          <input v-model="user.userCode" type="text" placeholder="用户名">
+          <input v-model="user.userPsd" type="password" placeholder="密码">
+          <input v-model="user.affirmUserPsd" type="password" placeholder="确认密码">
         </div>
         <!-- 按钮盒子 -->
         <div class="btn-box">
-          <button>注册</button>
+          <button @click="register">注册</button>
           <!-- 绑定点击事件 -->
         </div>
       </div>
@@ -54,6 +54,13 @@
 
 <script>
 import request from "@/utils/request";
+import CryptoJS from  "crypto-js"
+import { ElMessage } from 'element-plus'
+
+const { ref } = require("@vue/reactivity");
+const preRef = ref((''))
+const imgList = ref([require('@/assets/img/wuwu.jpeg'),require('@/assets/img/waoku.jpg')])
+let flag = ref(true)
 
 export default {
   name: "Login",
@@ -63,7 +70,10 @@ export default {
       user:{
         userCode:'',
         userPsd:'',
+        affirmUserPsd:'',
       },
+
+      switchPrompt:"没有账号?去注册",
     };
   },
 
@@ -74,51 +84,111 @@ export default {
   methods:{
 
 
+    // 用户登录
     login() {
       request.post("/deerLogin/login",this.user).then(ref => {
-        if (ref && ref !== false){
-          let user = JSON.stringify(ref);
-          localStorage.setItem("user", user);
-          debugger
-          this.$router.push("/main/home");// 跳转路由
+        debugger
+        if (ref.code === 200){
+          this.$router.push("/main/home");// 重定向
         }
-      })
+      }).catch((err)=>{
+        console.log(err);
+      });
     },
 
+    // 游客登录
     VisitorLogin(){
       request.post("/deerLogin/visitorLogin").then(ref => {
-        if (ref && ref !== false){
-          let user = JSON.stringify(ref);
-          localStorage.setItem("user", user);
-          debugger
-          this.$router.push("/main/home");// 跳转路由
+        if (ref.code === 200){
+          this.$router.push("/main/home");// 重定向
         }
-      })
+      }).catch((err)=>{
+        console.log(err);
+      });
     },
+
+    // 用户注册
+    register() {
+      // 密码不为空 且 两个密码相等
+      if (!this.user.userPsd || !this.user.affirmUserPsd) throw "aaa";
+       if(this.user.userPsd == this.user.affirmUserPsd) {
+        let aesEncryptPsd = this.aesMinEncrypt("Deer_Small_85866","Deer_Small_85800",this.user.userPsd);
+        let postData = JSON.parse(JSON.stringify(this.user));
+        postData.userPsd = aesEncryptPsd
+
+        request.post("/deerLogin/register",postData).then(ref => {
+          if (ref.code === 200){
+            ElMessage({
+              message: '用户  ' + ref.data.id + '  注册成功，可切换至登录页进行登录',
+              type: 'success',
+            })
+          }
+
+          console.log(ref)
+        }).catch((err)=>{
+          console.log(err);
+        });
+
+      }
+    },
+
+    // 加密算法
+    aesMinEncrypt(key, iv, psd){
+      let _psd = CryptoJS.enc.Utf8.parse(psd);
+      let  _key = CryptoJS.enc.Utf8.parse(key);
+      let _iv = CryptoJS.enc.Utf8.parse(iv);
+      let encrypted = CryptoJS.AES.encrypt(_psd, _key, {
+        iv: _iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      });
+      return encrypted.toString();
+    },
+
+    // 登录/注册 切换
+    mySwitch(){
+     // 初始化数据
+      this.user = {
+        userCode:'',
+        userPsd:'',
+        affirmUserPsd:'',
+      }
+
+      if (flag.value) {
+        preRef.value.style.background = '@c9e0ed'
+        preRef.value.style.transform = 'translateX(100%)'
+        this.switchPrompt = "已有账号?去登录"
+      }else {
+        preRef.value.style.background = '@edd4dc'
+        preRef.value.style.transform = 'translateX(0%)'
+        this.switchPrompt = "没有账号?去注册"
+      }
+      flag.value = !flag.value
+    }
 
   }
 }
 </script>
 
 <script setup>
-const { ref } = require("@vue/reactivity");
-const preRef = ref((''))
-const imgList = ref([require('@/assets/img/wuwu.jpeg'),require('@/assets/img/waoku.jpg')])
-let flag = ref(true)
-let switchPrompt = "没有账号?去注册"
-const mySwitch = () => {
-  if (flag.value) {
-    preRef.value.style.background = '@c9e0ed'
-    preRef.value.style.transform = 'translateX(100%)'
-    switchPrompt = "已有账号?去登录"
-  }else {
-    preRef.value.style.background = '@edd4dc'
-    preRef.value.style.transform = 'translateX(0%)'
-    switchPrompt = "没有账号?去注册"
-
-  }
-  flag.value = !flag.value
-}
+// const { ref } = require("@vue/reactivity");
+// const preRef = ref((''))
+// const imgList = ref([require('@/assets/img/wuwu.jpeg'),require('@/assets/img/waoku.jpg')])
+// let flag = ref(true)
+// let switchPrompt = "没有账号?去注册"
+// const mySwitch = () => {
+//   if (flag.value) {
+//     preRef.value.style.background = '@c9e0ed'
+//     preRef.value.style.transform = 'translateX(100%)'
+//     switchPrompt = "已有账号?去登录"
+//   }else {
+//     preRef.value.style.background = '@edd4dc'
+//     preRef.value.style.transform = 'translateX(0%)'
+//     switchPrompt = "没有账号?去注册"
+//
+//   }
+//   flag.value = !flag.value
+// }
 </script>
 
 <style lang="scss" scoped>

@@ -3,11 +3,33 @@
        <div class="leftNavbar" :style="{width: withOfIconType}">
 <!--            头像区-->
            <div class="profileArea">
-               <el-tooltip class="item" effect="dark" content="个人中心" placement="bottom">
-                   <img v-if="user.adurl" :src="user.adurl" @click="personalCenterApper">
-                   <img v-if="!user.adurl"  src="../assets/images/touxiang.png" @click="personalCenterApper">
-               </el-tooltip>
+<!--                 <el-tooltip class="item" effect="dark" content="个人中心" placement="bottom">-->
+<!--                   <img v-if="user.adurl" :src="user.adurl" @click="personalCenterApper">-->
+<!--                   <img v-if="!user.adurl"  src="../assets/images/touxiang.png" @click="personalCenterApper">-->
+<!--               </el-tooltip>-->
+
+             <el-row class="block-col-2">
+               <el-col :span="8">
+                 <el-dropdown trigger="click">
+                   <img v-if="!user.adurl"  src="../assets/images/touxiang.png">
+                   <template #dropdown>
+                     <el-dropdown-menu>
+                       <el-dropdown-item @click="userLogout">退出登录</el-dropdown-item>
+                       <!--                             <el-dropdown-item>Action 2</el-dropdown-item>-->
+                       <!--                             <el-dropdown-item>Action 3</el-dropdown-item>-->
+                       <!--                             <el-dropdown-item>Action 4</el-dropdown-item>-->
+                       <!--                             <el-dropdown-item>Action 5</el-dropdown-item>-->
+                     </el-dropdown-menu>
+                   </template>
+                 </el-dropdown>
+               </el-col>
+             </el-row>
+
+
+
            </div>
+
+
 <!--           导航栏区-->
            <div class="barArea">
 <!--               文字导航栏-->
@@ -54,7 +76,7 @@
            </div>
 
 <!--           转换格式按钮-->
-           <div class="changeArea">
+           <div class="changeArea" @click="changeToIcon">
              <ul class="dv">
                <li></li>
                <li></li>
@@ -83,6 +105,8 @@
 </template>
 
 <script>
+    import request from "@/utils/request";
+
     export default {
         name: "LeftNavBar",
         data(){
@@ -94,7 +118,8 @@
             }
         },
         methods:{
-            changeToIcon(){
+
+          changeToIcon(){
                 //文字导航栏
                 // if(this.withOfIconType=== '100px') {
                 //     this.withOfIconType='80px';
@@ -106,10 +131,22 @@
                 // }
                 this.flagOfShow= !this.flagOfShow
             },
-            personalCenterApper(){
+
+          userLogout(){
+            debugger
+            request.post("/deerLogin/userLogout").then(ref => {
+              debugger
+              this.$router.push("/login");// 重定向
+            }).catch((err)=>{
+              console.log(err);
+            });
+          },
+
+          personalCenterApper(){
                 // this.flagOfPersonalCenter = !this.flagOfPersonalCenter
-                this.$bus.$emit("personalCenterChange",this.flagOfPersonalCenter)
-            }
+                // this.$bus.$emit("personalCenterChange",this.flagOfPersonalCenter)
+              console.log('aaa')
+          }
         },
 
         mounted() {

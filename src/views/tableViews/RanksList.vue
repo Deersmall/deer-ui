@@ -1,11 +1,17 @@
 <template>
   <div style="border: 1px solid #333">
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="date" label="Date" width="180" />
-      <el-table-column prop="name" label="Name" width="180" />
-      <el-table-column prop="address" label="Address" />
-    </el-table>
 
+<!--    列表-->
+    <div>
+      <el-table :data="tableData" style="width: 100%">
+        <el-table-column prop="date" label="Date" width="180" />
+        <el-table-column prop="name" label="Name" width="180" />
+        <el-table-column prop="address" label="Address" />
+      </el-table>
+    </div>
+
+
+<!--    分页-->
     <div class="page-list">
       <el-pagination
           v-model:current-page="currentPage3"
