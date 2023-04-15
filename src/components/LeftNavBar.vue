@@ -205,9 +205,9 @@
         overflow: hidden;
         border-top-left-radius: 15px;
         border-bottom-left-radius: 15px;
-        height: 850px;
+        height: 920px;
         width: 100px;
-        background-color: #F5F7F9;
+        background-color: #f7fbff;
         display: flex;
         flex-direction: column;
         align-items: center;

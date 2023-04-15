@@ -18,7 +18,7 @@
         </div>
         <!-- 输入框盒子 -->
         <div class="input-box">
-          <input v-model="user.userCode" type="text" placeholder="用户名">
+          <input v-model="user.id" type="text" placeholder="用户名">
           <input v-model="user.userPsd" type="password" placeholder="密码">
           <input v-model="user.affirmUserPsd" type="password" placeholder="确认密码">
         </div>
@@ -36,7 +36,7 @@
         </div>
         <!-- 输入框盒子 -->
         <div class="input-box">
-          <input v-model="user.userCode" type="text" placeholder="用户名">
+          <input v-model="user.id" type="text" placeholder="用户名">
           <input v-model="user.userPsd" type="password" placeholder="密码">
         </div>
         <!-- 按钮盒子 -->
@@ -68,7 +68,7 @@ export default {
   data() {
     return {
       user:{
-        userCode:'',
+        id:'',
         userPsd:'',
         affirmUserPsd:'',
       },
@@ -149,7 +149,7 @@ export default {
     mySwitch(){
      // 初始化数据
       this.user = {
-        userCode:'',
+        id:'',
         userPsd:'',
         affirmUserPsd:'',
       }

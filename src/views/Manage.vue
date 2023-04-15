@@ -78,7 +78,7 @@
 }
     .dataView{
         width: 1650px;
-        height: 850px;
+        height: 920px;
         background-color:#FDFFFD ;
         border-bottom-right-radius: 15px;
         border-top-right-radius: 15px;

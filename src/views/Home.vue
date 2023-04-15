@@ -1,16 +1,16 @@
 <template>
     <div class="mainBodyOfHome">
-      {{user}}
+<!--      {{user}}-->
 <!--    数据展示-->
         <div class="dataDisplayOfHome">
 <!--          标题  -->
             <div class="headOfDataDisplay">
-                <span style="flex: 9;font-size: 22px;font-weight: bold">{{ user.username }}</span>
+                <span style="flex: 9;font-size: 22px;font-weight: bold">{{ user.userName }}</span>
             </div>
 <!--            数据具体展示-->
             <div class="detailedData">
                 <!--            Rank榜-->
-                <div class="demoOfDivInDetailedData" style="background-color: #E1F3D8" @click="ranks">
+                <div class="demoOfDivInDetailedData" style="background-color: #e1f3d8" @click="ranks">
                   <div class="sp-center" style="font-family: PingFangSC-Semibold,PingFang SC;font-size: 25px;font-weight: bold; flex: 2;width: 100%;height: 100%;display: flex;align-items: center;padding-left: 10px">
                     <span>Rank榜</span>
                   </div>
@@ -24,7 +24,7 @@
                 <!--            Test-->
                 <div class="demoOfDivInDetailedData" style="background-color:#FDE2E2">
                     <div class="sp-center" style="font-family: PingFangSC-Semibold,PingFang SC;font-size: 25px;font-weight: bold; flex: 2;width: 100%;height: 100%;display: flex;align-items: center;padding-left: 10px">
-                        <span>Test</span>
+                        <span>偷懒了~</span>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,6 @@
 <!--        数据可视化区域-->
         <div class="visualizationOfHome">
           <ranks-list class="ranks-list"></ranks-list>
-
         </div>
 
     </div>
@@ -56,8 +55,8 @@
                 })
             },
           ranks() {
-            let item = window.sessionStorage.getItem('token');
-            debugger
+              console.log("懒~懒~懒~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+
           },
         },
         created() {
@@ -72,7 +71,8 @@
         display: flex;
         width: 100%;
         height: 100%;
-        background-image: radial-gradient(circle farthest-side at 10% 90%, #FFE8EA, #EDF3FF 70%, #EDF2FB);
+        //background-image: radial-gradient(circle farthest-side at 10% 90%, #f8e2e4, #f0e2fd 70%, #d9e2ef);
+        background-image: radial-gradient(circle farthest-side at 0% 80%, #f1faff, #e9d9f8 60%, #efe7fa);
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -88,11 +88,12 @@
     }
     .visualizationOfHome{
         flex: 6;
-        height: 100%;
         width: 95%;
-        margin: 15px 0;
-        border-radius: 20px;
-        background-color: pink;
+        margin: 20px 0;
+        border-radius: 25px;
+        background-color: #ffffff;
+      box-shadow: 2px 2px 15px #bbb;
+
 
       .ranks-list {
         width: 100%;
@@ -117,6 +118,7 @@
         flex: 5;
         width: 100%;
         height: 100%;
+        margin-top: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -125,8 +127,9 @@
     .demoOfDivInDetailedData{
         flex: 1;
         width: 100%;
-        height: 80%;
-        border-radius: 15px;
+        height: 100%;
+        border-radius: 25px;
+        box-shadow: 2px 2px 15px #bbb;
         display: flex;
         justify-content: center;
         align-items: center;
