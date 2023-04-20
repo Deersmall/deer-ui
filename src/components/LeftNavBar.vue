@@ -134,7 +134,7 @@
 
           userLogout(){
             debugger
-            request.post("/deerLogin/userLogout").then(ref => {
+            request.post("/deerLogin/logout").then(ref => {
               debugger
               this.$router.push("/login");// 重定向
             }).catch((err)=>{
